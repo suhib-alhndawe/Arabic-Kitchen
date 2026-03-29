@@ -5,9 +5,14 @@ import * as schema from "./schema";
 const { Pool } = pg;
 const missingDatabaseUrlMessage =
   "DATABASE_URL must be set. Did you forget to provision a database?";
-export const isDatabaseConfigured = Boolean(process.env.DATABASE_URL);
+const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
+export let isDatabaseConfigured = hasDatabaseUrl;
 
-export const pool = isDatabaseConfigured
+export function markDatabaseUnavailable() {
+  isDatabaseConfigured = false;
+}
+
+export const pool = hasDatabaseUrl
   ? new Pool({ connectionString: process.env.DATABASE_URL })
   : null;
 
