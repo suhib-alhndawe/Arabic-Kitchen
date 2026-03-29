@@ -1,9 +1,13 @@
 import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useGetSettings } from "@workspace/api-client-react";
 
 export function WhatsAppButton() {
-  const phoneNumber = "966500000000";
-  const message = encodeURIComponent("مرحباً، أريد الطلب من مطعم فصاح لحم.");
+  const { data: settings } = useGetSettings();
+  
+  const phoneNumber = settings?.whatsappNumber || "962700000000";
+  const restName = settings?.restaurantNameAr || "صاج فحم ولحم";
+  const message = encodeURIComponent(`مرحباً، أريد الطلب من مطعم ${restName}.`);
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (

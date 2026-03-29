@@ -43,7 +43,7 @@ export function MenuItemCard({ item, index }: MenuItemCardProps) {
       <div className="p-5 flex flex-col flex-grow gap-3 relative z-10">
         <div className="flex justify-between items-start gap-4">
           <h3 className="font-bold text-lg text-foreground line-clamp-1">{item.nameAr}</h3>
-          <span className="font-black text-xl text-primary shrink-0">{item.price} ر.س</span>
+          <span className="font-black text-xl text-primary shrink-0">{item.price} د.أ</span>
         </div>
         
         <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 flex-grow">

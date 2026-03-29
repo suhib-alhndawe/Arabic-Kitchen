@@ -248,7 +248,7 @@ function AdminDashboard() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">السعر (ر.س)</label>
+                  <label className="text-sm font-medium">السعر (د.أ)</label>
                   <Input type="number" step="0.01" {...form.register("price")} className="bg-background" />
                   {form.formState.errors.price && <p className="text-xs text-destructive">{form.formState.errors.price.message}</p>}
                 </div>
@@ -337,7 +337,7 @@ function AdminDashboard() {
                   <td className="px-6 py-4">
                     <span className="bg-background px-2.5 py-1 rounded-md text-xs border border-border">{item.category}</span>
                   </td>
-                  <td className="px-6 py-4 font-bold text-primary">{item.price} ر.س</td>
+                  <td className="px-6 py-4 font-bold text-primary">{item.price} د.أ</td>
                   <td className="px-6 py-4">
                     {item.available ? (
                       <span className="flex items-center gap-1 text-green-500 text-xs font-medium"><CheckCircle2 className="w-3 h-3"/> متوفر</span>

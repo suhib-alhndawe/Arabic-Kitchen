@@ -1,8 +1,14 @@
 import { Link } from "wouter";
 import { Instagram, MapPin, Phone, Clock } from "lucide-react";
+import { useGetSettings } from "@workspace/api-client-react";
 import logoImg from "@assets/image_1774764313293.png";
 
 export function Footer() {
+  const { data: settings } = useGetSettings();
+  const logoUrl = settings?.logoUrl || logoImg;
+  const restName = settings?.restaurantNameAr || "صاج فحم ولحم";
+  const phone = settings?.whatsappNumber ? `+${settings.whatsappNumber}` : "+962 70 000 0000";
+
   return (
     <footer className="bg-card border-t border-border mt-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -11,9 +17,9 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-6">
             <Link href="/" className="flex items-center gap-3">
-              <img src={logoImg} alt="فصاح لحم" className="w-16 h-16 rounded-full border border-white/10" />
+              <img src={logoUrl} alt={restName} className="w-16 h-16 rounded-full border border-white/10" />
               <div className="flex flex-col">
-                <span className="font-bold text-2xl text-white">فصاح لحم</span>
+                <span className="font-bold text-2xl text-white">{restName}</span>
                 <span className="text-sm text-primary">للمشاوي الأصيلة</span>
               </div>
             </Link>
@@ -31,11 +37,11 @@ export function Footer() {
             <ul className="flex flex-col gap-4 text-muted-foreground">
               <li className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span>الرياض، المملكة العربية السعودية</span>
+                <span>عمان، الأردن</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary" />
-                <span dir="ltr">+966 50 000 0000</span>
+                <span dir="ltr">{phone}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-primary" />
@@ -67,7 +73,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} مطعم ومشاوي فصاح لحم. جميع الحقوق محفوظة.
+            &copy; {new Date().getFullYear()} مطعم {restName}. جميع الحقوق محفوظة.
           </p>
           <div className="flex items-center gap-4">
             <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-white transition-all">

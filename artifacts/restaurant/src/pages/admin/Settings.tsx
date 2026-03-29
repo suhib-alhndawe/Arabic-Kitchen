@@ -100,7 +100,7 @@ export default function Settings() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium">رقم الواتساب (للتواصل)</label>
-                <Input {...form.register("whatsappNumber")} className="bg-background text-left" dir="ltr" placeholder="966500000000" />
+                <Input {...form.register("whatsappNumber")} className="bg-background text-left" dir="ltr" placeholder="962700000000" />
                 <p className="text-xs text-muted-foreground">اكتب الرقم مع رمز الدولة بدون أصفار أو علامة +</p>
                 {form.formState.errors.whatsappNumber && <p className="text-xs text-destructive">{form.formState.errors.whatsappNumber.message}</p>}
               </div>

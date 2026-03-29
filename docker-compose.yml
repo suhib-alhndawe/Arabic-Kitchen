@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-Suhib2003}
+      - POSTGRES_DB=arabic_kitchen
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: ./artifacts/api-server/Dockerfile
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=postgres://postgres:${POSTGRES_PASSWORD:-Suhib2003}@db:5432/arabic_kitchen
+      - SESSION_SECRET=${SESSION_SECRET:-fasah-restaurant-secret-production}
+    depends_on:
+      - db
+    volumes:
+      - ./uploads:/app/uploads
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./artifacts/restaurant/Dockerfile
+    restart: always
+    ports:
+      - '80:80'
+    depends_on:
+      - api
+
+volumes:
+  db-data:

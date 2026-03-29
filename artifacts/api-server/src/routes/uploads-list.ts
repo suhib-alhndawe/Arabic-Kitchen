@@ -18,7 +18,7 @@ router.get("/", (_req: Request, res: Response) => {
       const stat = fs.statSync(filePath);
       return {
         filename,
-        url: `/api/uploads/files/${filename}`,
+        url: `/api/files/${filename}`,
         size: stat.size,
         createdAt: stat.birthtime.toISOString(),
       };

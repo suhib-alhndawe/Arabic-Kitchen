@@ -6,6 +6,7 @@ import categoriesRouter from "./categories";
 import uploadRouter from "./upload";
 import settingsRouter from "./settings";
 import dashboardRouter from "./dashboard";
+import uploadsListRouter from "./uploads-list";
 
 const router: IRouter = Router();
 
@@ -15,7 +16,9 @@ router.use("/auth", authRouter);
 router.use("/categories", categoriesRouter);
 router.use("/upload", uploadRouter);
 router.use("/files", uploadRouter);
+router.use("/uploads", uploadsListRouter);
 router.use("/settings", settingsRouter);
 router.use("/dashboard", dashboardRouter);
+
 
 export default router;

@@ -171,7 +171,7 @@ export default function MenuManagement() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">السعر (ر.س) *</label>
+                  <label className="text-sm font-medium">السعر (د.أ) *</label>
                   <Input type="number" step="0.01" {...form.register("price")} className="bg-background" />
                   {form.formState.errors.price && <p className="text-xs text-destructive">{form.formState.errors.price.message}</p>}
                 </div>
@@ -273,7 +273,7 @@ export default function MenuManagement() {
                     <td className="px-6 py-4">
                       <span className="bg-primary/10 text-primary px-2.5 py-1 rounded-md text-xs border border-primary/20">{item.category}</span>
                     </td>
-                    <td className="px-6 py-4 font-bold text-white">{item.price} ر.س</td>
+                    <td className="px-6 py-4 font-bold text-white">{item.price} د.أ</td>
                     <td className="px-6 py-4">
                       {item.available ? (
                         <span className="flex items-center gap-1 text-green-500 text-xs font-medium"><CheckCircle2 className="w-3 h-3"/> متوفر</span>

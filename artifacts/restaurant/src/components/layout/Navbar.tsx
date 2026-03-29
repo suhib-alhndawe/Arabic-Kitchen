@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, ChefHat } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useGetSettings } from "@workspace/api-client-react";
 import logoImg from "@assets/image_1774764313293.png";
 
 export function Navbar() {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: settings } = useGetSettings();
+
+  const logoUrl = settings?.logoUrl || logoImg;
+  const restName = settings?.restaurantNameAr || "صاج فحم ولحم";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -32,11 +37,11 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors shadow-lg">
-              <img src={logoImg} alt="فصاح لحم" className="w-full h-full object-cover" />
+              <img src={logoUrl} alt={restName} className="w-full h-full object-cover" />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl tracking-tight text-white group-hover:text-primary transition-colors">فصاح لحم</span>
-              <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">مطعم ومشاوي</span>
+              <span className="font-bold text-xl tracking-tight text-white group-hover:text-primary transition-colors">{restName}</span>
+              <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">{restName}</span>
             </div>
           </Link>
 

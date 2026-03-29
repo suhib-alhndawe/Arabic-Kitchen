@@ -1,4 +1,7 @@
 import express, { type Express } from "express";
+import helmet from "helmet";
+import compression from "compression";
+import rateLimit from "express-rate-limit";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import session from "express-session";
@@ -6,6 +9,13 @@ import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
+
+app.use(helmet());
+app.use(compression());
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+}));
 
 app.use(
   pinoHttp({
@@ -36,10 +46,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: process.env["NODE_ENV"] === "production",
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
+      sameSite: process.env["NODE_ENV"] === "production" ? "none" : "lax"
     },
+    proxy: process.env["NODE_ENV"] === "production",
   }),
 );
 
