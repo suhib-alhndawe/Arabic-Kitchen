@@ -45,6 +45,10 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.post("/", requireAuth, async (req: Request, res: Response) => {
   try {
+    if (!isDatabaseConfigured) {
+      res.status(503).json({ error: "قاعدة البيانات غير مهيأة بعد. أضف DATABASE_URL في Render لتفعيل التعديل." });
+      return;
+    }
     const parsed = insertMenuItemSchema.safeParse(req.body);
     if (!parsed.success) {
       res.status(400).json({ error: "بيانات غير صحيحة" });
@@ -60,6 +64,10 @@ router.post("/", requireAuth, async (req: Request, res: Response) => {
 
 router.put("/:id", requireAuth, async (req: Request, res: Response) => {
   try {
+    if (!isDatabaseConfigured) {
+      res.status(503).json({ error: "قاعدة البيانات غير مهيأة بعد. أضف DATABASE_URL في Render لتفعيل التعديل." });
+      return;
+    }
     const id = parseInt(req.params.id as string);
     if (isNaN(id)) {
       res.status(400).json({ error: "معرف غير صحيح" });
@@ -92,6 +100,10 @@ router.put("/:id", requireAuth, async (req: Request, res: Response) => {
 
 router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
   try {
+    if (!isDatabaseConfigured) {
+      res.status(503).json({ error: "قاعدة البيانات غير مهيأة بعد. أضف DATABASE_URL في Render لتفعيل التعديل." });
+      return;
+    }
     const id = parseInt(req.params.id as string);
     if (isNaN(id)) {
       res.status(400).json({ error: "معرف غير صحيح" });

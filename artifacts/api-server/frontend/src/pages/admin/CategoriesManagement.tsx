@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 const categorySchema = z.object({
   nameAr: z.string().min(1, "الاسم مطلوب"),
@@ -27,13 +28,13 @@ export default function CategoriesManagement() {
   const updateMutation = useUpdateCategory();
   const deleteMutation = useDeleteCategory();
   const { toast } = useToast();
-  
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Category | null>(null);
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
-    defaultValues: { nameAr: "", slug: "", icon: "", sortOrder: 0 }
+    defaultValues: { nameAr: "", slug: "", icon: "", sortOrder: 0 },
   });
 
   const openCreate = () => {
@@ -63,22 +64,23 @@ export default function CategoriesManagement() {
             setIsDialogOpen(false);
             refetch();
           },
-          onError: () => toast({ title: "حدث خطأ", variant: "destructive" })
-        }
+          onError: (error) => toast({ title: getApiErrorMessage(error, "حدث خطأ"), variant: "destructive" }),
+        },
       );
-    } else {
-      createMutation.mutate(
-        { data },
-        {
-          onSuccess: () => {
-            toast({ title: "تمت الإضافة بنجاح" });
-            setIsDialogOpen(false);
-            refetch();
-          },
-          onError: () => toast({ title: "حدث خطأ", variant: "destructive" })
-        }
-      );
+      return;
     }
+
+    createMutation.mutate(
+      { data },
+      {
+        onSuccess: () => {
+          toast({ title: "تمت الإضافة بنجاح" });
+          setIsDialogOpen(false);
+          refetch();
+        },
+        onError: (error) => toast({ title: getApiErrorMessage(error, "حدث خطأ"), variant: "destructive" }),
+      },
+    );
   };
 
   const handleDelete = (id: number) => {
@@ -89,51 +91,48 @@ export default function CategoriesManagement() {
           toast({ title: "تم الحذف بنجاح" });
           refetch();
         },
-        onError: () => toast({ title: "حدث خطأ", variant: "destructive" })
-      }
+        onError: (error) => toast({ title: getApiErrorMessage(error, "حدث خطأ"), variant: "destructive" }),
+      },
     );
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold">الأقسام</h1>
-          <p className="text-muted-foreground mt-2">إدارة أقسام المنيو (مثل: كباب، مشويات، مشروبات)</p>
+          <p className="mt-2 text-muted-foreground">إدارة أقسام المنيو</p>
         </div>
-        
+
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={openCreate} className="gap-2">
-              <Plus className="w-4 h-4" />
+              <Plus className="h-4 w-4" />
               إضافة قسم جديد
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] bg-card border-border">
+          <DialogContent className="border-border bg-card sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle className="text-white text-xl">
+              <DialogTitle className="text-xl text-white">
                 {editingItem ? "تعديل القسم" : "إضافة قسم جديد"}
               </DialogTitle>
             </DialogHeader>
-            
+
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">الاسم (عربي) *</label>
+                <label className="text-sm font-medium">الاسم (عربي)</label>
                 <Input {...form.register("nameAr")} className="bg-background" />
-                {form.formState.errors.nameAr && <p className="text-xs text-destructive">{form.formState.errors.nameAr.message}</p>}
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">الرابط (Slug) *</label>
-                <Input {...form.register("slug")} className="bg-background text-left" dir="ltr" placeholder="m grills" />
-                {form.formState.errors.slug && <p className="text-xs text-destructive">{form.formState.errors.slug.message}</p>}
+                <label className="text-sm font-medium">المعرف (Slug)</label>
+                <Input {...form.register("slug")} className="bg-background text-left" dir="ltr" />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">أيقونة (إيموجي) *</label>
-                  <Input {...form.register("icon")} className="bg-background" placeholder="🥩" />
-                  {form.formState.errors.icon && <p className="text-xs text-destructive">{form.formState.errors.icon.message}</p>}
+                  <label className="text-sm font-medium">أيقونة</label>
+                  <Input {...form.register("icon")} className="bg-background" placeholder="🍢" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">الترتيب</label>
@@ -141,7 +140,7 @@ export default function CategoriesManagement() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-border">
+              <div className="flex justify-end gap-3 border-t border-border pt-4">
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>إلغاء</Button>
                 <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
                   {(createMutation.isPending || updateMutation.isPending) ? "جاري الحفظ..." : "حفظ القسم"}
@@ -152,49 +151,52 @@ export default function CategoriesManagement() {
         </Dialog>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {isLoading ? (
-          <div className="col-span-full py-12 flex justify-center text-muted-foreground">جاري التحميل...</div>
+          <div className="col-span-full py-12 text-center text-muted-foreground">جاري التحميل...</div>
         ) : categories?.length === 0 ? (
-          <div className="col-span-full py-12 text-center text-muted-foreground bg-card border border-border rounded-xl">لا توجد أقسام. أضف قسمك الأول!</div>
+          <div className="col-span-full rounded-xl border border-border bg-card py-12 text-center text-muted-foreground">لا توجد أقسام بعد.</div>
         ) : (
-          categories?.sort((a,b) => a.sortOrder - b.sortOrder).map((category) => (
-            <Card key={category.id} className="bg-card border-border hover:border-primary/50 transition-colors group relative overflow-hidden">
-              <CardContent className="p-6 text-center">
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{category.icon}</div>
-                <h3 className="text-xl font-bold mb-1">{category.nameAr}</h3>
-                <span className="text-xs text-muted-foreground bg-background px-2 py-1 rounded-md border border-border">{category.slug}</span>
-                
-                <div className="absolute top-2 left-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button variant="secondary" size="icon" className="h-8 w-8 bg-black/50 hover:bg-blue-500/20 text-blue-400" onClick={() => openEdit(category)}>
-                    <Edit2 className="w-4 h-4" />
-                  </Button>
-                  
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="secondary" size="icon" className="h-8 w-8 bg-black/50 hover:bg-destructive/20 text-destructive">
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-card border-border">
-                      <AlertDialogHeader>
-                        <AlertDialogTitle className="text-white text-right">تأكيد الحذف</AlertDialogTitle>
-                        <AlertDialogDescription className="text-right">
-                          هل أنت متأكد من حذف قسم "{category.nameAr}"؟
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter className="flex-row-reverse gap-2 sm:space-x-0">
-                        <AlertDialogCancel className="mt-0">إلغاء</AlertDialogCancel>
-                        <AlertDialogAction className="bg-destructive text-white hover:bg-destructive/90" onClick={() => handleDelete(category.id)}>
-                          نعم، احذف
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              </CardContent>
-            </Card>
-          ))
+          categories
+            ?.slice()
+            .sort((a, b) => a.sortOrder - b.sortOrder)
+            .map((category) => (
+              <Card key={category.id} className="group relative overflow-hidden border-border bg-card transition-colors hover:border-primary/50">
+                <CardContent className="p-6 text-center">
+                  <div className="mb-4 text-4xl transition-transform duration-300 group-hover:scale-110">{category.icon}</div>
+                  <h3 className="mb-1 text-xl font-bold">{category.nameAr}</h3>
+                  <span className="rounded-md border border-border bg-background px-2 py-1 text-xs text-muted-foreground">{category.slug}</span>
+
+                  <div className="absolute left-2 top-2 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                    <Button variant="secondary" size="icon" className="h-8 w-8 bg-black/50 text-blue-400 hover:bg-blue-500/20" onClick={() => openEdit(category)}>
+                      <Edit2 className="h-4 w-4" />
+                    </Button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="secondary" size="icon" className="h-8 w-8 bg-black/50 text-destructive hover:bg-destructive/20">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="border-border bg-card">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className="text-right text-white">تأكيد الحذف</AlertDialogTitle>
+                          <AlertDialogDescription className="text-right">
+                            هل أنت متأكد من حذف قسم "{category.nameAr}"؟
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter className="flex-row-reverse gap-2 sm:space-x-0">
+                          <AlertDialogCancel className="mt-0">إلغاء</AlertDialogCancel>
+                          <AlertDialogAction className="bg-destructive text-white hover:bg-destructive/90" onClick={() => handleDelete(category.id)}>
+                            نعم، احذف
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
         )}
       </div>
     </div>
