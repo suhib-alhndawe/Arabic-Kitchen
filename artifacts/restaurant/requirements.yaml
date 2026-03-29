@@ -1,0 +1,20 @@
+packages:
+  "framer-motion": "For stunning page transitions, hero reveals, and interactive hover effects"
+  "react-hook-form": "For robust admin forms with validation"
+  "@hookform/resolvers": "Zod integration for form validation"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to merge tailwind classes safely"
+  "use-debounce": "For debouncing search inputs on the menu page"
+
+images:
+  - path: "artifacts/restaurant/public/images/hero-bg.png"
+    description: "Cinematic, moody background of a hot charcoal grill with glowing embers, dark fiery ambiance, premium restaurant feel, deep reds, blacks, and bright orange fire accents, high resolution."
+    aspect_ratio: "16:9"
+  - path: "artifacts/restaurant/public/images/pattern-overlay.png"
+    description: "Subtle traditional geometric Arabic pattern tile, very low opacity, dark gray on transparent background, used for texture."
+    aspect_ratio: "1:1"
+
+notes:
+  - Uses @workspace/api-client-react for data fetching.
+  - App is fully RTL (Right-to-Left) for Arabic.
+  - Logo is assumed to be imported from @assets/image_1774764313293.png as specified in context.

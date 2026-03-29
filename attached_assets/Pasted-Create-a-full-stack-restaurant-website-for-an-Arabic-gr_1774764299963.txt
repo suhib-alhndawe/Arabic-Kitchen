@@ -1,0 +1,110 @@
+Create a full-stack restaurant website for an Arabic grill restaurant named:
+"مطعم ومشاوي فصاح لحم"
+
+The website should be modern, clean, and mobile-friendly. Use Arabic (RTL) as the main language.
+
+⚠️ Important:
+- Do NOT use Docker
+- Use a simple stack that works directly on Replit (Node.js + Express + SQLite or MongoDB)
+- Clean UI using Tailwind CSS
+
+========================
+🌐 FRONTEND REQUIREMENTS
+========================
+
+1. Home Page:
+- Restaurant logo (grill/fire theme)
+- Hero section with Arabic text:
+  "أفضل المشاوي الطازجة يومياً"
+- Button: "اطلب الآن" (scroll to menu)
+
+2. Menu Page:
+- Categories:
+  - كباب
+  - شقف
+  - عرايس
+  - صواني
+  - دجاج
+  - شيش
+- Each item should include:
+  - Name
+  - Price
+  - Description
+  - Image
+
+3. Design:
+- RTL layout
+- Colors: red, black, fire/orange (grill style)
+- Smooth animations
+- Mobile responsive
+
+========================
+🔐 ADMIN CMS PANEL
+========================
+
+Create a protected admin dashboard:
+
+Login:
+- Simple login (username + password stored in backend)
+
+Dashboard Features:
+1. Add new menu item:
+   - Name
+   - Category
+   - Price
+   - Description
+   - Image URL
+
+2. Edit items
+3. Delete items
+
+4. Categories management (optional but preferred)
+
+5. All data stored in database (SQLite or MongoDB)
+
+========================
+⚙️ BACKEND
+========================
+
+- Node.js + Express
+- REST API:
+  - GET /menu
+  - POST /menu
+  - PUT /menu/:id
+  - DELETE /menu/:id
+
+- Authentication:
+  - Simple session or token-based auth
+
+========================
+✨ EXTRA FEATURES (IMPORTANT)
+========================
+
+- WhatsApp order button with dynamic message
+- Search bar in menu
+- Filter by category
+- Loading states
+
+========================
+📁 PROJECT STRUCTURE
+========================
+
+- /client (frontend)
+- /server (backend)
+- /database
+
+========================
+🎨 STYLE
+========================
+
+Make it look like a premium grill restaurant website.
+Use fire/grill icons similar to logo.
+Make UI attractive and professional.
+
+========================
+🚀 FINAL OUTPUT
+========================
+
+- Fully working project
+- Runs directly on Replit
+- Clear instructions to run (npm install + npm start)
