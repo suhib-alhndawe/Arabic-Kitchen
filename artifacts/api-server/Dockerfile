@@ -1,4 +1,4 @@
-FROM node:18-alpine AS frontend-builder
+FROM node:22-bookworm-slim AS frontend-builder
 
 RUN npm install -g pnpm@9
 
