@@ -1,5 +1,5 @@
 import { Router, type IRouter, type Request, type Response } from "express";
-import { db, menuItemsTable, insertMenuItemSchema } from "@workspace/db";
+import { db, menuItemsTable, insertMenuItemSchema } from "../lib/db";
 import { eq, ilike, or, and } from "drizzle-orm";
 
 const router: IRouter = Router();
