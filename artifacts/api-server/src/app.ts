@@ -5,10 +5,14 @@ import rateLimit from "express-rate-limit";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import session from "express-session";
+import path from "node:path";
+import fs from "node:fs";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
+const publicDir = path.resolve(process.cwd(), "public");
+const indexHtmlPath = path.join(publicDir, "index.html");
 
 app.use(helmet());
 app.use(compression());
@@ -56,5 +60,12 @@ app.use(
 );
 
 app.use("/api", router);
+
+if (fs.existsSync(indexHtmlPath)) {
+  app.use(express.static(publicDir));
+  app.get(/^(?!\/api(?:\/|$)).*/, (_req, res) => {
+    res.sendFile(indexHtmlPath);
+  });
+}
 
 export default app;
