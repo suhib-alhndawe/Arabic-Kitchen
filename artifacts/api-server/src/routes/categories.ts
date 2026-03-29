@@ -1,6 +1,7 @@
 import { Router, type IRouter, type Request, type Response } from "express";
-import { db, categoriesTable, insertCategorySchema } from "../lib/db";
+import { db, categoriesTable, insertCategorySchema, isDatabaseConfigured } from "../lib/db";
 import { eq } from "drizzle-orm";
+import { fallbackCategories } from "../lib/fallback-data";
 
 const router: IRouter = Router();
 
@@ -15,6 +16,10 @@ function requireAuth(req: Request, res: Response, next: () => void) {
 
 router.get("/", async (_req: Request, res: Response) => {
   try {
+    if (!isDatabaseConfigured) {
+      res.json(fallbackCategories);
+      return;
+    }
     const cats = await db.select().from(categoriesTable).orderBy(categoriesTable.sortOrder);
     res.json(cats);
   } catch (err) {

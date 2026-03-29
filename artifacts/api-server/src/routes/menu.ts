@@ -1,6 +1,7 @@
 import { Router, type IRouter, type Request, type Response } from "express";
-import { db, menuItemsTable, insertMenuItemSchema } from "../lib/db";
-import { eq, ilike, or, and } from "drizzle-orm";
+import { db, isDatabaseConfigured, menuItemsTable, insertMenuItemSchema } from "../lib/db";
+import { eq } from "drizzle-orm";
+import { fallbackMenuItems } from "../lib/fallback-data";
 
 const router: IRouter = Router();
 
@@ -17,7 +18,9 @@ router.get("/", async (req: Request, res: Response) => {
   try {
     const { category, search } = req.query as { category?: string; search?: string };
 
-    let items = await db.select().from(menuItemsTable);
+    let items = isDatabaseConfigured
+      ? await db.select().from(menuItemsTable)
+      : fallbackMenuItems;
 
     if (category && category !== "الكل") {
       items = items.filter((item) => item.category === category);

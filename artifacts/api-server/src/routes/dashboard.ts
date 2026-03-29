@@ -1,8 +1,8 @@
 import { Router, type IRouter, type Request, type Response } from "express";
-import { db, menuItemsTable, categoriesTable } from "../lib/db";
-import { eq } from "drizzle-orm";
+import { db, isDatabaseConfigured, menuItemsTable, categoriesTable } from "../lib/db";
 import path from "path";
 import fs from "fs";
+import { fallbackCategories, fallbackMenuItems } from "../lib/fallback-data";
 
 const router: IRouter = Router();
 
@@ -16,8 +16,8 @@ function requireAuth(req: Request, res: Response, next: () => void) {
 
 router.get("/stats", requireAuth, async (_req: Request, res: Response) => {
   try {
-    const allItems = await db.select().from(menuItemsTable);
-    const allCategories = await db.select().from(categoriesTable);
+    const allItems = isDatabaseConfigured ? await db.select().from(menuItemsTable) : fallbackMenuItems;
+    const allCategories = isDatabaseConfigured ? await db.select().from(categoriesTable) : fallbackCategories;
 
     const availableItems = allItems.filter(i => i.available).length;
     const unavailableItems = allItems.filter(i => !i.available).length;

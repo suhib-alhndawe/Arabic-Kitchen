@@ -1,0 +1,66 @@
+export const fallbackCategories = [
+  { id: 1, nameAr: "كباب", slug: "kebab", icon: "🍢", sortOrder: 1, createdAt: new Date("2026-01-01T00:00:00.000Z") },
+  { id: 2, nameAr: "شقف", slug: "shish", icon: "🥩", sortOrder: 2, createdAt: new Date("2026-01-01T00:00:00.000Z") },
+  { id: 3, nameAr: "عرايس", slug: "arayes", icon: "🥙", sortOrder: 3, createdAt: new Date("2026-01-01T00:00:00.000Z") },
+  { id: 4, nameAr: "دجاج", slug: "chicken", icon: "🍗", sortOrder: 4, createdAt: new Date("2026-01-01T00:00:00.000Z") },
+];
+
+export const fallbackMenuItems = [
+  {
+    id: 1,
+    name: "Mixed Grill Platter",
+    nameAr: "مشاوي مشكلة",
+    category: "كباب",
+    price: 14.99,
+    description: "A charcoal-grilled platter with kebab, shish, and arayes.",
+    descriptionAr: "طبق مشاوي على الفحم يجمع الكباب والشيش والعرايس.",
+    imageUrl: "/images/hero-bg.png",
+    available: true,
+    createdAt: new Date("2026-01-01T00:00:00.000Z"),
+  },
+  {
+    id: 2,
+    name: "Lamb Kebab",
+    nameAr: "كباب لحم",
+    category: "كباب",
+    price: 11.5,
+    description: "Tender lamb kebab grilled over live charcoal.",
+    descriptionAr: "كباب لحم طري مشوي على الفحم المباشر.",
+    imageUrl: "/images/hero-bg.png",
+    available: true,
+    createdAt: new Date("2026-01-01T00:00:00.000Z"),
+  },
+  {
+    id: 3,
+    name: "Chicken Shish",
+    nameAr: "شيش دجاج",
+    category: "دجاج",
+    price: 10.75,
+    description: "Juicy chicken cubes marinated with house spices.",
+    descriptionAr: "قطع دجاج متبلة بتوابل المطعم ومشوية بعناية.",
+    imageUrl: "/images/hero-bg.png",
+    available: true,
+    createdAt: new Date("2026-01-01T00:00:00.000Z"),
+  },
+  {
+    id: 4,
+    name: "Arayes",
+    nameAr: "عرايس",
+    category: "عرايس",
+    price: 8.99,
+    description: "Crispy grilled pita stuffed with seasoned minced meat.",
+    descriptionAr: "خبز محشو باللحم المتبل ومحمص حتى يصبح مقرمشاً.",
+    imageUrl: "/images/hero-bg.png",
+    available: true,
+    createdAt: new Date("2026-01-01T00:00:00.000Z"),
+  },
+];
+
+export const fallbackSettings = {
+  restaurantName: "Arabic Kitchen",
+  restaurantNameAr: "مطبخ عربي",
+  whatsappNumber: "962790000000",
+  logoUrl: "/logo.png",
+  heroTitle: "أشهى المشاوي الطازجة يومياً",
+  address: "عمان، الأردن",
+};
