@@ -13,13 +13,20 @@ tags:
     description: Menu item operations
   - name: auth
     description: Authentication operations
+  - name: categories
+    description: Category operations
+  - name: upload
+    description: File upload operations
+  - name: settings
+    description: Settings operations
+  - name: dashboard
+    description: Dashboard statistics
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -37,12 +44,10 @@ paths:
           in: query
           schema:
             type: string
-          description: Filter by category
         - name: search
           in: query
           schema:
             type: string
-          description: Search by name or description
       responses:
         "200":
           description: List of menu items
@@ -136,6 +141,181 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /categories:
+    get:
+      operationId: getCategories
+      tags: [categories]
+      summary: Get all categories
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+    post:
+      operationId: createCategory
+      tags: [categories]
+      summary: Create a new category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCategoryRequest"
+      responses:
+        "201":
+          description: Created category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /categories/{id}:
+    put:
+      operationId: updateCategory
+      tags: [categories]
+      summary: Update a category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCategoryRequest"
+      responses:
+        "200":
+          description: Updated category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteCategory
+      tags: [categories]
+      summary: Delete a category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /upload:
+    post:
+      operationId: uploadFile
+      tags: [upload]
+      summary: Upload an image file
+      responses:
+        "200":
+          description: Uploaded file info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /uploads:
+    get:
+      operationId: getUploads
+      tags: [upload]
+      summary: List all uploaded files
+      responses:
+        "200":
+          description: List of uploaded files
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UploadedFile"
+  /settings:
+    get:
+      operationId: getSettings
+      tags: [settings]
+      summary: Get restaurant settings
+      responses:
+        "200":
+          description: Settings object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settings"
+    put:
+      operationId: updateSettings
+      tags: [settings]
+      summary: Update restaurant settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSettingsRequest"
+      responses:
+        "200":
+          description: Updated settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settings"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get dashboard statistics
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -259,6 +439,146 @@ components:
         - description
         - descriptionAr
         - imageUrl
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        nameAr:
+          type: string
+        slug:
+          type: string
+        icon:
+          type: string
+        sortOrder:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - nameAr
+        - slug
+        - icon
+        - sortOrder
+        - createdAt
+    CreateCategoryRequest:
+      type: object
+      properties:
+        nameAr:
+          type: string
+        slug:
+          type: string
+        icon:
+          type: string
+        sortOrder:
+          type: integer
+      required:
+        - nameAr
+        - slug
+        - icon
+    UploadResponse:
+      type: object
+      properties:
+        url:
+          type: string
+        filename:
+          type: string
+        originalName:
+          type: string
+        size:
+          type: integer
+      required:
+        - url
+        - filename
+        - originalName
+        - size
+    UploadedFile:
+      type: object
+      properties:
+        filename:
+          type: string
+        url:
+          type: string
+        size:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - filename
+        - url
+        - size
+        - createdAt
+    Settings:
+      type: object
+      properties:
+        restaurantName:
+          type: string
+        restaurantNameAr:
+          type: string
+        whatsappNumber:
+          type: string
+        logoUrl:
+          type: string
+        heroTitle:
+          type: string
+        address:
+          type: string
+      required:
+        - restaurantName
+        - restaurantNameAr
+        - whatsappNumber
+        - logoUrl
+        - heroTitle
+        - address
+    UpdateSettingsRequest:
+      type: object
+      properties:
+        restaurantName:
+          type: string
+        restaurantNameAr:
+          type: string
+        whatsappNumber:
+          type: string
+        logoUrl:
+          type: string
+        heroTitle:
+          type: string
+        address:
+          type: string
+    DashboardStats:
+      type: object
+      properties:
+        totalItems:
+          type: integer
+        totalCategories:
+          type: integer
+        availableItems:
+          type: integer
+        unavailableItems:
+          type: integer
+        totalUploads:
+          type: integer
+        itemsByCategory:
+          type: array
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+              count:
+                type: integer
+            required:
+              - category
+              - count
+      required:
+        - totalItems
+        - totalCategories
+        - availableItems
+        - unavailableItems
+        - totalUploads
+        - itemsByCategory
     LoginRequest:
       type: object
       properties:

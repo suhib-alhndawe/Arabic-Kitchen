@@ -8,7 +8,6 @@
 import * as zod from "zod";
 
 /**
- * Returns server health status
  * @summary Health check
  */
 export const HealthCheckResponse = zod.object({
@@ -19,11 +18,8 @@ export const HealthCheckResponse = zod.object({
  * @summary Get all menu items
  */
 export const GetMenuItemsQueryParams = zod.object({
-  category: zod.coerce.string().optional().describe("Filter by category"),
-  search: zod.coerce
-    .string()
-    .optional()
-    .describe("Search by name or description"),
+  category: zod.coerce.string().optional(),
+  search: zod.coerce.string().optional(),
 });
 
 export const GetMenuItemsResponseItem = zod.object({
@@ -95,6 +91,135 @@ export const DeleteMenuItemParams = zod.object({
 export const DeleteMenuItemResponse = zod.object({
   success: zod.boolean(),
   message: zod.string(),
+});
+
+/**
+ * @summary Get all categories
+ */
+export const GetCategoriesResponseItem = zod.object({
+  id: zod.number(),
+  nameAr: zod.string(),
+  slug: zod.string(),
+  icon: zod.string(),
+  sortOrder: zod.number(),
+  createdAt: zod.coerce.date(),
+});
+export const GetCategoriesResponse = zod.array(GetCategoriesResponseItem);
+
+/**
+ * @summary Create a new category
+ */
+export const CreateCategoryBody = zod.object({
+  nameAr: zod.string(),
+  slug: zod.string(),
+  icon: zod.string(),
+  sortOrder: zod.number().optional(),
+});
+
+/**
+ * @summary Update a category
+ */
+export const UpdateCategoryParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateCategoryBody = zod.object({
+  nameAr: zod.string(),
+  slug: zod.string(),
+  icon: zod.string(),
+  sortOrder: zod.number().optional(),
+});
+
+export const UpdateCategoryResponse = zod.object({
+  id: zod.number(),
+  nameAr: zod.string(),
+  slug: zod.string(),
+  icon: zod.string(),
+  sortOrder: zod.number(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete a category
+ */
+export const DeleteCategoryParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const DeleteCategoryResponse = zod.object({
+  success: zod.boolean(),
+  message: zod.string(),
+});
+
+/**
+ * @summary Upload an image file
+ */
+export const UploadFileResponse = zod.object({
+  url: zod.string(),
+  filename: zod.string(),
+  originalName: zod.string(),
+  size: zod.number(),
+});
+
+/**
+ * @summary List all uploaded files
+ */
+export const GetUploadsResponseItem = zod.object({
+  filename: zod.string(),
+  url: zod.string(),
+  size: zod.number(),
+  createdAt: zod.coerce.date(),
+});
+export const GetUploadsResponse = zod.array(GetUploadsResponseItem);
+
+/**
+ * @summary Get restaurant settings
+ */
+export const GetSettingsResponse = zod.object({
+  restaurantName: zod.string(),
+  restaurantNameAr: zod.string(),
+  whatsappNumber: zod.string(),
+  logoUrl: zod.string(),
+  heroTitle: zod.string(),
+  address: zod.string(),
+});
+
+/**
+ * @summary Update restaurant settings
+ */
+export const UpdateSettingsBody = zod.object({
+  restaurantName: zod.string().optional(),
+  restaurantNameAr: zod.string().optional(),
+  whatsappNumber: zod.string().optional(),
+  logoUrl: zod.string().optional(),
+  heroTitle: zod.string().optional(),
+  address: zod.string().optional(),
+});
+
+export const UpdateSettingsResponse = zod.object({
+  restaurantName: zod.string(),
+  restaurantNameAr: zod.string(),
+  whatsappNumber: zod.string(),
+  logoUrl: zod.string(),
+  heroTitle: zod.string(),
+  address: zod.string(),
+});
+
+/**
+ * @summary Get dashboard statistics
+ */
+export const GetDashboardStatsResponse = zod.object({
+  totalItems: zod.number(),
+  totalCategories: zod.number(),
+  availableItems: zod.number(),
+  unavailableItems: zod.number(),
+  totalUploads: zod.number(),
+  itemsByCategory: zod.array(
+    zod.object({
+      category: zod.string(),
+      count: zod.number(),
+    }),
+  ),
 });
 
 /**

@@ -7,11 +7,19 @@
  */
 
 export * from "./authStatusResponse";
+export * from "./category";
+export * from "./createCategoryRequest";
 export * from "./createMenuItemRequest";
+export * from "./dashboardStats";
+export * from "./dashboardStatsItemsByCategoryItem";
 export * from "./errorResponse";
 export * from "./getMenuItemsParams";
 export * from "./healthStatus";
 export * from "./loginRequest";
 export * from "./loginResponse";
 export * from "./menuItem";
+export * from "./settings";
 export * from "./successResponse";
+export * from "./updateSettingsRequest";
+export * from "./uploadedFile";
+export * from "./uploadResponse";

@@ -33,6 +33,68 @@ export interface CreateMenuItemRequest {
   available?: boolean;
 }
 
+export interface Category {
+  id: number;
+  nameAr: string;
+  slug: string;
+  icon: string;
+  sortOrder: number;
+  createdAt: string;
+}
+
+export interface CreateCategoryRequest {
+  nameAr: string;
+  slug: string;
+  icon: string;
+  sortOrder?: number;
+}
+
+export interface UploadResponse {
+  url: string;
+  filename: string;
+  originalName: string;
+  size: number;
+}
+
+export interface UploadedFile {
+  filename: string;
+  url: string;
+  size: number;
+  createdAt: string;
+}
+
+export interface Settings {
+  restaurantName: string;
+  restaurantNameAr: string;
+  whatsappNumber: string;
+  logoUrl: string;
+  heroTitle: string;
+  address: string;
+}
+
+export interface UpdateSettingsRequest {
+  restaurantName?: string;
+  restaurantNameAr?: string;
+  whatsappNumber?: string;
+  logoUrl?: string;
+  heroTitle?: string;
+  address?: string;
+}
+
+export type DashboardStatsItemsByCategoryItem = {
+  category: string;
+  count: number;
+};
+
+export interface DashboardStats {
+  totalItems: number;
+  totalCategories: number;
+  availableItems: number;
+  unavailableItems: number;
+  totalUploads: number;
+  itemsByCategory: DashboardStatsItemsByCategoryItem[];
+}
+
 export interface LoginRequest {
   username: string;
   password: string;
@@ -58,12 +120,6 @@ export interface SuccessResponse {
 }
 
 export type GetMenuItemsParams = {
-  /**
-   * Filter by category
-   */
   category?: string;
-  /**
-   * Search by name or description
-   */
   search?: string;
 };

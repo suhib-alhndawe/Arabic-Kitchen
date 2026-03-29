@@ -1,0 +1,164 @@
+Create a full-stack restaurant website for an Arabic grill restaurant named:
+
+"مطعم صاج فحم ولحم"
+
+⚠️ Requirements:
+- Do NOT use Docker
+- Must run directly on Replit
+- Use Node.js + Express
+- Use MongoDB (or SQLite if easier)
+- Use Tailwind CSS
+- RTL Arabic UI
+
+================================
+🌐 FRONTEND (CUSTOMER SIDE)
+================================
+
+1. Home Page:
+- Logo (grill/fire theme)
+- Hero section:
+  "أشهى المشاوي على الصاج والفحم"
+- زر: "استعرض المنيو"
+- قسم مميزات (طازج، سريع، جودة عالية)
+
+2. Menu Page:
+- Categories:
+  - كباب
+  - شقف
+  - عرايس
+  - صواني
+  - دجاج
+  - شيش
+
+Each item includes:
+- Name
+- Price
+- Description
+- Image
+- Availability (متوفر / غير متوفر)
+
+Features:
+- Search bar
+- Filter by category
+- Responsive design
+- WhatsApp order button (dynamic message with item name)
+
+================================
+🔐 ADMIN DASHBOARD (FULL CMS)
+================================
+
+Create a COMPLETE admin panel (not basic)
+
+Login System:
+- Secure login (JWT or session)
+- Username & password stored in DB
+- Logout button
+
+Dashboard Pages:
+
+1. 📊 Dashboard Overview:
+- Total items count
+- Total categories
+- Quick stats
+
+2. 🍽 Manage Menu:
+- Add item:
+  - Name
+  - Category (dropdown)
+  - Price
+  - Description
+  - Image upload (NOT URL — real upload)
+  - Availability toggle
+
+- Edit item
+- Delete item
+
+3. 📂 Categories Management:
+- Add category
+- Edit category
+- Delete category
+
+4. 🖼 Media Manager:
+- Upload images
+- Preview images
+- Reuse images in items
+
+5. ⚙️ Settings Page:
+- Change restaurant name
+- Change WhatsApp number
+- Change logo
+
+================================
+⚙️ BACKEND API
+================================
+
+Build REST API:
+
+Auth:
+- POST /login
+- POST /logout
+
+Menu:
+- GET /menu
+- POST /menu
+- PUT /menu/:id
+- DELETE /menu/:id
+
+Categories:
+- GET /categories
+- POST /categories
+- PUT /categories/:id
+- DELETE /categories/:id
+
+Upload:
+- POST /upload (handle image upload using multer)
+
+================================
+📁 PROJECT STRUCTURE
+================================
+
+/client
+/server
+/uploads
+/database
+
+================================
+🎨 UI DESIGN
+================================
+
+- Colors:
+  - Red (#e63946)
+  - Black
+  - Orange (fire)
+
+- Style:
+  - Modern
+  - Clean
+  - Restaurant / grill theme
+  - Smooth animations
+
+- Admin dashboard:
+  - Sidebar navigation
+  - Clean cards
+  - Professional look like SaaS
+
+================================
+🚀 FINAL OUTPUT
+================================
+
+- Fully working project on Replit
+- No Docker
+- Clear run instructions:
+  npm install
+  npm start
+
+- Seed initial data (example menu items)
+
+================================
+🔥 EXTRA (IMPORTANT)
+================================
+
+- Protect admin routes
+- Validate inputs
+- Show success/error messages
+- Use reusable components

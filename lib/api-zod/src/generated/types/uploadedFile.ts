@@ -6,7 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetMenuItemsParams = {
-  category?: string;
-  search?: string;
-};
+export interface UploadedFile {
+  filename: string;
+  url: string;
+  size: number;
+  createdAt: Date;
+}
